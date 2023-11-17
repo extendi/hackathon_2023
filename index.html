@@ -65,7 +65,7 @@
             {name: "Messina", lat: 38.183, lon: 15.5667},
             {name: "Milano", lat: 45.466, lon: 9.1833},
             {name: "Modena", lat: 44.650, lon: 10.9167},
-            {name: "Napoli", lat: 40.350, lon: 14.2500},
+            {name: "Napoli", lat: 40.863, lon: 14.2700},
             {name: "Novara", lat: 45.450, lon: 8.6333},
             {name: "Nuoro", lat: 40.316, lon: 9.2667},
             {name: "Oristan", lat: 39.900, lon: 8.6000},
@@ -195,7 +195,7 @@
                     }),
                     style: new ol.style.Style({
                         image: new ol.style.Icon({
-                            src: "https://raw.githubusercontent.com/scottdejonge/map-icons/dbf6fd7caedd60d11b5bfb5f267a114a6847d012/src/icons/casino.svg",
+                            src: "https://raw.githubusercontent.com/scottdejonge/map-icons/dbf6fd7caedd60d11b5bfb5f267a114a6847d012/src/icons/map-pin.svg",
                         })
                     })
                 });
@@ -206,6 +206,19 @@
 
 
             function displayTooltip(evt) {
+                var pixel = evt.pixel;
+                var feature = map.forEachFeatureAtPixel(pixel, function(feature) {
+                    return feature;
+                });
+                if(feature ){
+                    overlay.setPosition(evt.coordinate);
+                    tooltip.innerHTML = feature.get('name');
+                    map.getTargetElement().style.cursor = "pointer";
+                    tooltip.style.display =  '';
+                }else{
+                    tooltip.style.display =  'none';
+                    map.getTargetElement().style.cursor = "";
+                }
             };
 
             map.on('pointermove', displayTooltip);
