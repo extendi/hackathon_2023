@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Hackathone2023</title>
+    <script>
+        const markers = [
+            {name: "Agrigento", lat: 37.300, lon: 13.6000},
+            {name: "Alessandria", lat: 44.916, lon: 8.6167},
+            {name: "Ancona", lat: 43.616, lon: 13.5167},
+            {name: "Aosta", lat: 45.733, lon: 7.3167},
+            {name: "Arezzp", lat: 43.466, lon: 11.8833},
+            {name: "Ascoli Piceno", lat: 42.850, lon: 13.5667},
+            {name: "Asti", lat: 44.883, lon: 8.2000},
+            {name: "Avellino", lat: 40.916, lon: 14.7833},
+            {name: "Bari", lat: 41.116, lon: 16.8833},
+            {name: "Lauria", lat: 40.0524, lon: 15.8343},
+            {name: "Belluno", lat: 46.133, lon: 12.2167},
+            {name: "Benevento", lat: 41.133, lon: 14.7667},
+            {name: "Bergamo", lat: 45.700, lon: 9.6667},
+            {name: "Biella", lat: 45.566, lon: 8.0500},
+            {name: "Bologna", lat: 44.500, lon: 11.3500},
+            {name: "Bolzano", lat: 46.500, lon: 11.3333},
+            {name: "Brescia", lat: 44.533, lon: 10.2000},
+            {name: "Brindisi", lat: 40.650, lon: 17.9333},
+            {name: "Cagliari", lat: 39.216, lon: 9.1667},
+            {name: "Caltanisetta", lat: 37.483, lon: 14.0667},
+            {name: "Campobasso", lat: 41.566, lon: 14.6500},
+            {name: "Caserta", lat: 41.066, lon: 14.3167},
+            {name: "Catania", lat: 37.500, lon: 15.0833},
+            {name: "Catanzaro", lat: 38.900, lon: 16.5833},
+            {name: "Chieti", lat: 42.350, lon: 14.1667},
+            {name: "Como", lat: 45.800, lon: 9.0833},
+            {name: "Cosenza", lat: 39.283, lon: 16.2500},
+            {name: "Cremona", lat: 45.133, lon: 10.0333},
+            {name: "Crotone", lat: 39.083, lon: 17.1333},
+            {name: "Cuneo", lat: 44.400, lon: 7.5500},
+            {name: "Enna", lat: 37.566, lon: 14.2667},
+            {name: "Ferrara", lat: 44.833, lon: 11.6333},
+            {name: "Firenze", lat: 43.766, lon: 11.2500},
+            {name: "Foggia", lat: 41.466, lon: 15.5500},
+            {name: "Forlì", lat: 44.216, lon: 12.0500},
+            {name: "Frosinone", lat: 41.633, lon: 13.3667},
+            {name: "Genova", lat: 44.416, lon: 8.9167},
+            {name: "Gorizia", lat: 45.950, lon: 13.6333},
+            {name: "Grosseto", lat: 42.766, lon: 11.1167},
+            {name: "Imperia", lat: 43.883, lon: 8.0167},
+            {name: "Iserni", lat: 41.600, lon: 14.2333},
+            {name: "L'Aquila", lat: 42.350, lon: 13.4000},
+            {name: "La Spezia", lat: 44.116, lon: 9.8333},
+            {name: "Latina", lat: 41.466, lon: 12.8833},
+            {name: "Lecce", lat: 40.350, lon: 18.1833},
+            {name: "Lecco", lat: 45.850, lon: 9.3833},
+            {name: "Livorno", lat: 43.550, lon: 10.3167},
+            {name: "Lodi", lat: 45.316, lon: 9.5000},
+            {name: "Lucca", lat: 43.850, lon: 10.5167},
+            {name: "Macerata", lat: 43.300, lon: 13.4500},
+            {name: "Mantova", lat: 45.150, lon: 10.7833},
+            {name: "Massa", lat: 44.333, lon: 10.0833},
+            {name: "Matera", lat: 40.683, lon: 16.6000},
+            {name: "Messina", lat: 38.183, lon: 15.5667},
+            {name: "Milano", lat: 45.466, lon: 9.1833},
+            {name: "Modena", lat: 44.650, lon: 10.9167},
+            {name: "Napoli", lat: 40.350, lon: 14.2500},
+            {name: "Novara", lat: 45.450, lon: 8.6333},
+            {name: "Nuoro", lat: 40.316, lon: 9.2667},
+            {name: "Oristan", lat: 39.900, lon: 8.6000},
+            {name: "Padova", lat: 45.400, lon: 11.8833},
+            {name: "Palermo", lat: 38.116, lon: 13.3500},
+            {name: "Parma", lat: 44.800, lon: 10.3500},
+            {name: "Pavia", lat: 45.183, lon: 9.1667},
+            {name: "Perugia", lat: 43.116, lon: 12.4000},
+            {name: "Pesaro", lat: 43.900, lon: 12.9167},
+            {name: "Pescara", lat: 42.450, lon: 14.2167},
+            {name: "Piacenza", lat: 45.050, lon: 9.6833},
+            {name: "Pisa", lat: 43.716, lon: 10.4000},
+            {name: "Pistoia", lat: 43.933, lon: 10.9167},
+            {name: "Pordenone", lat: 45.950, lon: 12.6500},
+            {name: "Potenza", lat: 40.633, lon: 15.8167},
+            {name: "Prato", lat: 43.883, lon: 11.1000},
+            {name: "Ragusa", lat: 36.933, lon: 14.7333},
+            {name: "Ravenna", lat: 44.416, lon: 12.2000},
+            {name: "Reggio di Calabria", lat: 38.100, lon: 15.6500},
+            {name: "Reggio nell'Emilia", lat: 44.700, lon: 10.6333},
+            {name: "Rieti", lat: 42.366, lon: 12.8667},
+            {name: "Rimini", lat: 44.066, lon: 12.5667},
+            {name: "Roma", lat: 41.900, lon: 12.4833},
+            {name: "Rovigo", lat: 45.066, lon: 11.8000},
+            {name: "Salerno", lat: 40.683, lon: 14.7667},
+            {name: "Sassari", lat: 40.716, lon: 8.5667},
+            {name: "Savona", lat: 44.316, lon: 8.4667},
+            {name: "Siena", lat: 43.316, lon: 11.3000},
+            {name: "Siracusa", lat: 37.066, lon: 15.2833},
+            {name: "Sondrio", lat: 46.183, lon: 9.8833},
+            {name: "Taranto", lat: 40.466, lon: 17.2333},
+            {name: "Teramo", lat: 42.666, lon: 13.7167},
+            {name: "Terni", lat: 42.566, lon: 12.6667},
+            {name: "Torino", lat: 45.066, lon: 7.7000},
+            {name: "Trapani", lat: 38.016, lon: 12.5333},
+            {name: "Trento", lat: 46.066, lon: 11.1333},
+            {name: "Treviso", lat: 45.666, lon: 12.2500},
+            {name: "Trieste", lat: 45.650, lon: 13.7667},
+            {name: "Udine", lat: 46.066, lon: 13.2333},
+            {name: "Varese", lat: 45.833, lon: 8.8167},
+            {name: "Venezia", lat: 45.433, lon: 12.3500},
+            {name: "Verbani", lat: 45.933, lon: 8.5500},
+            {name: "Vercelli", lat: 45.333, lon: 8.4167},
+            {name: "Verona", lat: 45.450, lon: 11.0000},
+            {name: "Vibo Valenti", lat: 38.666, lon: 16.0100},
+            {name: "Vicenza", lat: 45.550, lon: 11.5500},
+            {name: "Viterbo", lat: 42.550, lon: 12.1167}
+        ]
+
+        function initializeMap() {
+            const mapContainer = document.getElementById('mapContainer');
+            if (!mapContainer) {
+                return;
+            }
+            if (document.getElementById('map')) {
+                document.getElementById('map').remove();
+            }
+            const mapElement = document.createElement('div');
+            mapElement.setAttribute('id', 'map');
+            mapElement.setAttribute('class', 'w-full h-full');
+            mapContainer.appendChild(mapElement);
+            const tooltip = document.createElement('div');
+            tooltip.style.display = 'none';
+            document.body.appendChild(tooltip);
+            const style = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.6)',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#319FD3',
+                    width: 1,
+                }),
+                image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 255, 255, 0.6)',
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#319FD3',
+                        width: 1,
+                    }),
+                }),
+            });
+
+            // const source = new ol.VectorSource({
+            //     url: 'layer.geojson',
+            //     format: new GeoJSON(),
+            // });
+            //
+            // const vectorLayer = new VectorLayer({
+            //     source: source,
+            //     style: style,
+            // });
+
+            const view = new ol.View({
+                center: ol.proj.fromLonLat([11.3, 42.116667]),
+                zoom: 6.5
+            })
+            const map = new ol.Map({
+                target: mapElement,
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                    // vectorLayer
+                ],
+                view: view
+            });
+            const overlay = new ol.Overlay({
+                element: tooltip,
+                offset: [10, 0],
+                positioning: 'bottom-left'
+            });
+            map.addOverlay(overlay);
+            markers.forEach(marker => {
+
+
+                const markerFeature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([marker.lon, marker.lat])),
+                    name: marker.name,
+                    // path: marker.path
+                });
+                console.log(markerFeature);
+                const markerLayer = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: [markerFeature]
+                    }),
+                    style: new ol.style.Style({
+                        image: new ol.style.Icon({
+                            src: "https://raw.githubusercontent.com/scottdejonge/map-icons/dbf6fd7caedd60d11b5bfb5f267a114a6847d012/src/icons/casino.svg",
+                        })
+                    })
+                });
+
+                map.addLayer(markerLayer);
+
+            });
+
+
+            function displayTooltip(evt) {
+            };
+
+            map.on('pointermove', displayTooltip);
+            map.on('click', function (evt) {
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeMap();
+        });
+    </script>
+</head>
+<body>
+<div id="mapContainer" class="w-screen h-screen">
+</div>
+</body>
+</html>
